@@ -4,12 +4,14 @@ from django.conf import settings
 
 
 class Document(models.Model):
-    # Класс отправляемого документа
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='postman_user')  # Привязка к юзеру
+    STATUS_ACCEPTED = 'ok'
+    STATUS_DENIED = 'denied'
+    STATUSES = (
+        (STATUS_ACCEPTED, 'Принят'),
+        (STATUS_DENIED, 'Отклонен'),
+    )
 
-    file_load = models.FileField(upload_to='documents/', verbose_name='Файл')  # Сам файл
-    check_file = models.BooleanField(default=False, verbose_name='Файл принят')  # Принятие файла, по умолчанию False
-    checkout_file = models.BooleanField(default=False, verbose_name='Файл Отклонен')  # Отклонение  файла, по умолчанию False
+    status = models.CharField(max_length=20, choices=STATUSES,)
 
     # Строковое представления для разработчиков
     def __str__(self):

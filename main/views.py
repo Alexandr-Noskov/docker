@@ -51,24 +51,24 @@ class DocumentUpdateAPIView(generics.UpdateAPIView):
     permission_classes = [permissions.IsAdminUser]  # Разрешение только для staff - True
 
     # проверка документа на принятие/отказ и отправка нужных писем
-    def perform_update(self, serializer):
+    def perform_update(self, serializer, checkout_file_before=None):
         # Получаем исходный объект
         instance = serializer.instance
 
         # Получаем значения до и после обновления
-        check_file_before = instance.check_file
-        checkout_file_before = instance.checkout_file
+        check_file_before = instance.status
+
 
         # Выполняем обновление
         serializer.save()
 
         # Получаем значения после обновления
-        check_file_after = serializer.instance.check_file
-        checkout_file_after = serializer.instance.checkout_file
+        status = serializer.instance.check_file
 
-        if check_file_after != checkout_file_after:
+
+        if status != status:
             # Проверяем изменения и выполняем нужные действия
-            if check_file_before != check_file_after and check_file_after == True:
+            if check_file_before != status and status == True:
 
                 # Отправляем письмо владальцу документа о том что документ принят
                 print('Документ принят')
@@ -79,7 +79,7 @@ class DocumentUpdateAPIView(generics.UpdateAPIView):
                     recipient_list=[instance.owner.email]
                 )
 
-            if checkout_file_before != checkout_file_after and checkout_file_after == True:
+            if checkout_file_before != status and status == True:
                 # Отправляем письмо  владальцу файла-документа, о том что документ отклонен
 
                 send_mail(

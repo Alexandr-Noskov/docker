@@ -3,11 +3,10 @@
 
 Стек проекта:
 Python - 3.11.1
+postgresql
+docker
 Django
 DjangoREST
-
-Документация redoc, swagger доступна после запуска проекта БД - Postgres
-данные вынесены в .env
 
 Перед запуском создать и заполнить СВОЙ файл .env СВОИМИ данными
 
@@ -27,5 +26,7 @@ EMAIL_HOST = EMAIL_PORT = EMAIL_HOST_USER = EMAIL_HOST_PASSWORD = EMAIL_USE_SSL 
 Docker
 docker-compose build
 docker-compose up
+docker-compose up -d --build
+
 
 Проект выполнил Носков Александр на IDE - PyCharm
