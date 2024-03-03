@@ -51,7 +51,7 @@ class DocumentUpdateAPIView(generics.UpdateAPIView):
     permission_classes = [permissions.IsAdminUser]  # Разрешение только для staff - True
 
     # проверка документа на принятие/отказ и отправка нужных писем
-    def perform_update(self, serializer, checkout_file_before=None):
+    def perform_update(self, serializer, checkout_file_before=None, instanse=None):
         # Получаем исходный объект
         instance = serializer.instance
 
@@ -66,9 +66,9 @@ class DocumentUpdateAPIView(generics.UpdateAPIView):
         status = serializer.instance.check_file
 
 
-        if status != status:
+        if instanse.status == instanse.STATUS_ACCEPTED:
             # Проверяем изменения и выполняем нужные действия
-            if check_file_before != status and status == True:
+            if check_file_before != status and status != True:
 
                 # Отправляем письмо владальцу документа о том что документ принят
                 print('Документ принят')
